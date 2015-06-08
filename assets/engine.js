@@ -53,7 +53,7 @@ function main() {
     LARGURA = window.innerWidth;
 
     if(LARGURA >= 500) {
-        LARGURA = 600;
+        LARGURA = 800;
         ALTURA = 600;
     }
 
