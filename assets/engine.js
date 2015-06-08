@@ -2,14 +2,30 @@
 var canvas, contexto, ALTURA, LARGURA, frames = 0;
 
 var chao = {
-    y: 550,
-    altura: 50,
-    cor: "#ffdf70",
+        y: 550,
+        altura: 50,
+        cor: "#ffdf70",
 
-    desenha: function() {
-        contexto.fillStyle = this.cor;
-        contexto.fillRect(0, this.y, LARGURA, this.altura);
-    }
+        desenha: function() {
+            contexto.fillStyle = this.cor;
+            contexto.fillRect(0, this.y, LARGURA, this.altura);
+        }
+    },
+
+    bloco = {
+        x: 50,
+        y: 0,
+        altura: 50,
+        largura: 50,
+        cor: "#ffe4e",
+
+        desenha: function() {
+            contexto.fillStyle = this.cor;
+            contexto.fillRect(this.x, this.y, this.largura, this.altura)
+        }
+
+
+
 };
 
 function main() {
@@ -71,6 +87,9 @@ function desenha() {
 
     // desenhando o chão do jogo
     chao.desenha();
+
+    // desenhando o player do jogo
+    bloco.desenha();
 }
 
 // inicializa o jogo
