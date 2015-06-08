@@ -17,15 +17,23 @@ var chao = {
         y: 0,
         altura: 50,
         largura: 50,
-        cor: "#ffe4e",
+        cor: "#ff4e4e",
+        gravidade: 1.5,
+        velocidade: 0,
 
         desenha: function() {
             contexto.fillStyle = this.cor;
             contexto.fillRect(this.x, this.y, this.largura, this.altura)
-        }
+        },
 
+        atualiza: function() {
+            this.velocidade += this.gravidade;
+            this.y += this.velocidade;
 
-
+            if(this.y > chao.y - this.altura) {
+                this.y = chao.y - this.altura;
+            }
+        },
 };
 
 function main() {
@@ -76,6 +84,8 @@ function roda() {
 function atualiza() {
 
     frames++;
+
+    bloco.atualiza();
 
 }
 
