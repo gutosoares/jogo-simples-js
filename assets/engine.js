@@ -1,5 +1,5 @@
 // Variáveis do jogo
-var canvas, contexto, ALTURA, LARGURA, frames = 0;
+var canvas, contexto, ALTURA, LARGURA, frames = 0, maxPulos = 3;
 
 var chao = {
         y: 550,
@@ -20,6 +20,8 @@ var chao = {
         cor: "#ff4e4e",
         gravidade: 1.5,
         velocidade: 0,
+        forcaDoPulo: 15,
+        qntPulos: 0,
 
         desenha: function() {
             contexto.fillStyle = this.cor;
@@ -32,7 +34,15 @@ var chao = {
 
             if(this.y > chao.y - this.altura) {
                 this.y = chao.y - this.altura;
+                this.qntPulos = 0;
             }
+        },
+
+        pula: function() {
+            if(this.qntPulos < maxPulos) {   
+               this.velocidade = -this.forcaDoPulo;
+               this.qntPulos++;
+           }
         },
 };
 
@@ -65,8 +75,7 @@ function main() {
 
 //monitorar o clique do usuário
 function clique(event) {
-    alert("clicou");
-
+    bloco.pula();
 }
 
 // função onde irá "rodar" o jogo, loop do jogo
