@@ -1,6 +1,17 @@
 // Variáveis do jogo
 var canvas, contexto, ALTURA, LARGURA, frames = 0;
 
+var chao = {
+    y: 550,
+    altura: 50,
+    cor: "#ffdf70",
+
+    desenha: function() {
+        contexto.fillStyle = this.cor;
+        contexto.fillRect(0, this.y, LARGURA, this.altura);
+    }
+};
+
 function main() {
 
     // pagando a altura e largura da janela do usuário
@@ -55,6 +66,11 @@ function atualiza() {
 // desenhar o ambiente e o personagem
 function desenha() {
 
+    contexto.fillStyle = "#50beff";
+    contexto.fillRect(0, 0, LARGURA, ALTURA);
+
+    // desenhando o chão do jogo
+    chao.desenha();
 }
 
 // inicializa o jogo
