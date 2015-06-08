@@ -22,20 +22,33 @@ function main() {
     contexto = canvas.getContext("2d");
     document.body.appendChild(canvas);
 
+    // monitorando o clique do usuário
+    document.addEventListener("mousedown", clique);
+
+    roda();
 }
 
 //monitorar o clique do usuário
-function clique() {
+function clique(event) {
+    alert("clicou");
 
 }
 
 // função onde irá "rodar" o jogo, loop do jogo
 function roda() {
 
+    atualiza();
+
+    desenha();
+
+    // criando o loop do jogo
+    window.requestAnimationFrame(roda);
 }
 
 // local onde irá atualizar o status do personagem
 function atualiza() {
+
+    frames++;
 
 }
 
