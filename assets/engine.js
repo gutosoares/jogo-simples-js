@@ -44,7 +44,35 @@ var chao = {
                this.qntPulos++;
            }
         },
-};
+    },
+
+    obstaculos = {
+        _obs: [],
+        cores: ["#ffbc1c", "#ff1c1c", "#ff85e1", "#52a7ff", "#78ff5d"],
+
+        insere: function() {
+            this._obs.push({
+                x: 200,
+                largura: Math.floor(20 * Math.random()),
+                altura: 30 + Math.floor(120 * Math.random()),
+                cor: this.cores[Math.floor(5 * Math.random())]
+            });
+        },
+
+        desenha: function() {
+            for(var i = 0, tam = this._obs.length; i < tam; i++) {
+                var obs = this._obs[i];
+                contexto.fillStyle = obs.cor; 
+                contexto.fillRect(obs.x, chao.y - obs.altura, obs.largura, obs.altura);
+            }
+        },
+
+        atualiza: function() {
+
+        },
+
+
+    };
 
 function main() {
 
@@ -106,6 +134,9 @@ function desenha() {
 
     // desenhando o chão do jogo
     chao.desenha();
+
+    // desenhando os obstaculos
+    obstaculos.desenha();
 
     // desenhando o player do jogo
     bloco.desenha();
