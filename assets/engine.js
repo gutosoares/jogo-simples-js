@@ -1,5 +1,5 @@
 // Variáveis do jogo
-var canvas, contexto, ALTURA, LARGURA, frames = 0, maxPulos = 3;
+var canvas, contexto, ALTURA, LARGURA, frames = 0, maxPulos = 3, velocidade = 6;
 
 var chao = {
         y: 550,
@@ -20,7 +20,7 @@ var chao = {
         cor: "#ff4e4e",
         gravidade: 1.5,
         velocidade: 0,
-        forcaDoPulo: 15,
+        forcaDoPulo: 20,
         qntPulos: 0,
 
         desenha: function() {
@@ -49,14 +49,17 @@ var chao = {
     obstaculos = {
         _obs: [],
         cores: ["#ffbc1c", "#ff1c1c", "#ff85e1", "#52a7ff", "#78ff5d"],
+        tempoInsere: 0,
 
         insere: function() {
             this._obs.push({
-                x: 200,
-                largura: Math.floor(20 * Math.random()),
-                altura: 30 + Math.floor(120 * Math.random()),
+                x: LARGURA,
+                largura: 30 + Math.floor(18 * Math.random()),
+                altura: 30 + Math.floor(71 * Math.random()),
                 cor: this.cores[Math.floor(5 * Math.random())]
             });
+
+            this.tempoInsere = 30 + Math.floor(21 * Math.random());
         },
 
         desenha: function() {
@@ -69,6 +72,24 @@ var chao = {
 
         atualiza: function() {
 
+            if(this.tempoInsere == 0)
+                this.insere();
+            else
+                this.tempoInsere--;
+
+            // acessando cada posição do array de obstaculos
+            for(var i = 0, tam = this._obs.length; i < tam; i++) {
+                var obs = this._obs[i];
+
+                obs.x -= velocidade;
+
+                // removando os obstaculos ao final da canvas
+                if(obs.x <= -obs.largura) {
+                    this._obs.splice(i, 1);
+                    tam--;
+                    i--;
+                }
+            }
         },
 
 
@@ -123,6 +144,8 @@ function atualiza() {
     frames++;
 
     bloco.atualiza();
+
+    obstaculos.atualiza();
 
 }
 
