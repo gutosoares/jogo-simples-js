@@ -1,5 +1,11 @@
 // Variáveis do jogo
-var canvas, contexto, ALTURA, LARGURA, frames = 0, maxPulos = 3, velocidade = 6;
+var canvas, contexto, ALTURA, LARGURA, frames = 0, maxPulos = 3, velocidade = 6, estadoAtual,
+
+estados = {
+    inicioDeJogo: 0,
+    jogando: 1,
+    fimDeJogo: 2
+}
 
 var chao = {
         y: 550,
@@ -39,7 +45,7 @@ var chao = {
         },
 
         pula: function() {
-            if(this.qntPulos < maxPulos) {   
+            if(this.qntPulos < maxPulos) {
                this.velocidade = -this.forcaDoPulo;
                this.qntPulos++;
            }
@@ -65,7 +71,7 @@ var chao = {
         desenha: function() {
             for(var i = 0, tam = this._obs.length; i < tam; i++) {
                 var obs = this._obs[i];
-                contexto.fillStyle = obs.cor; 
+                contexto.fillStyle = obs.cor;
                 contexto.fillRect(obs.x, chao.y - obs.altura, obs.largura, obs.altura);
             }
         },
@@ -119,12 +125,21 @@ function main() {
     // monitorando o clique do usuário
     document.addEventListener("mousedown", clique);
 
+    // definindo o está atual do jogo
+    estadoAtual = estados.inicioDeJogo;
     roda();
 }
 
 //monitorar o clique do usuário
 function clique(event) {
-    bloco.pula();
+    if(estadoAtual == estados.jogando) 
+        bloco.pula();
+
+    else if(estadoAtual == estados.inicioDeJogo)
+        estadoAtual = estados.jogando;
+
+    else if(estadoAtual == estados.fimDeJogo)
+        estadoAtual = estados.inicioDeJogo;
 }
 
 // função onde irá "rodar" o jogo, loop do jogo
@@ -145,8 +160,8 @@ function atualiza() {
 
     bloco.atualiza();
 
-    obstaculos.atualiza();
-
+    if(estadoAtual == estados.jogando) 
+        obstaculos.atualiza();    
 }
 
 // desenhar o ambiente e o personagem
@@ -155,11 +170,23 @@ function desenha() {
     contexto.fillStyle = "#50beff";
     contexto.fillRect(0, 0, LARGURA, ALTURA);
 
+    if(estadoAtual == estados.inicioDeJogo) {
+        contexto.fillStyle = "green";
+        contexto.fillRect(LARGURA / 2 - 50, ALTURA / 2 - 50, 100, 100);
+    }
+    
+    else if(estadoAtual == estados.fimDeJogo) {
+        contexto.fillStyle = "red";
+        contexto.fillRect(LARGURA / 2 - 50, ALTURA / 2 - 50, 100, 100);
+    }
+    
+    else if(estadoAtual == estados.jogando) {
+        // desenhando os obstaculos
+        obstaculos.desenha();
+    }
+    
     // desenhando o chão do jogo
     chao.desenha();
-
-    // desenhando os obstaculos
-    obstaculos.desenha();
 
     // desenhando o player do jogo
     bloco.desenha();
